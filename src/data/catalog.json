@@ -38,7 +38,7 @@
       {
         "id": "12x16",
         "label": "12 x 16",
-        "priceInCents": 7900,
+        "priceInCents": 7999,
         "previewScale": 0.94
       },
       {
@@ -154,26 +154,26 @@
       {
         "id": "16x12",
         "label": "16 x 12",
-        "priceInCents": 8500,
+        "priceInCents": 8599,
         "previewScale": 0.94
       },
       {
         "id": "24x18",
         "label": "24 x 18",
-        "priceInCents": 11900,
+        "priceInCents": 11999,
         "previewScale": 1
       },
       {
         "id": "32x24",
         "label": "32 x 24",
-        "priceInCents": 14400,
+        "priceInCents": 14499,
         "badge": "Best Value",
         "previewScale": 1.08
       },
       {
         "id": "40x30",
         "label": "40 x 30",
-        "priceInCents": 21900,
+        "priceInCents": 21999,
         "previewScale": 1.15,
         "legacyIds": [
           "48x36"
@@ -182,7 +182,7 @@
       {
         "id": "60x45",
         "label": "60 x 45",
-        "priceInCents": 29400,
+        "priceInCents": 29499,
         "badge": "Statement",
         "previewScale": 1.21
       }
@@ -191,26 +191,26 @@
       {
         "id": "12x12",
         "label": "12 x 12",
-        "priceInCents": 6500,
+        "priceInCents": 6599,
         "previewScale": 0.94
       },
       {
         "id": "16x16",
         "label": "16 x 16",
-        "priceInCents": 7900,
+        "priceInCents": 7999,
         "previewScale": 1
       },
       {
         "id": "24x24",
         "label": "24 x 24",
-        "priceInCents": 5900,
+        "priceInCents": 5999,
         "badge": "Best Value",
         "previewScale": 1.08
       },
       {
         "id": "30x30",
         "label": "30 x 30",
-        "priceInCents": 4900,
+        "priceInCents": 4999,
         "badge": "Popular",
         "previewScale": 1.14
       }
