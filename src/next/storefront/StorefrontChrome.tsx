@@ -596,7 +596,7 @@ function LaunchPromoBar({
       Icon: Gift,
       content: (
         <span>
-          {launchOfferDiscount} off with code <strong>{launchOfferCode}</strong>
+          20% off with code <strong>SAVE20</strong>
         </span>
       ),
     },
