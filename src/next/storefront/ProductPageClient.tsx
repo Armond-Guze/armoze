@@ -19,7 +19,6 @@ import {
   FaTruckFast,
 } from 'react-icons/fa6';
 import {
-  ArrowLeft,
   BadgeCheck,
   Box,
   Check,
@@ -35,7 +34,7 @@ import {
 } from 'lucide-react';
 import { addStoredCartItem } from '../../cart';
 import { etsyReviewHighlights } from '../../data/reviews';
-import type { FrameOption, Product, ProductVideo, SizeOption } from '../../data/products';
+import type { Collection, FrameOption, Product, ProductVideo, SizeOption } from '../../data/products';
 import { supabaseClient } from '../../lib/supabase';
 import {
   createCheckoutRequestId,
@@ -885,15 +884,20 @@ function RelatedProductsCarousel({ products }: { products: Product[] }) {
 
 export default function ProductPageClient({
   catalogProducts,
+  collections,
   product,
   relatedProducts,
   searchSizeId: initialSearchSizeId,
 }: {
   catalogProducts: Product[];
+  collections: Collection[];
   product: Product;
   relatedProducts: Product[];
   searchSizeId?: string;
 }) {
+  const primaryCollection = collections.find((collection) =>
+    product.collectionSlugs.includes(collection.slug),
+  ) || collections.find((collection) => collection.slug === 'best-sellers');
   const querySizeId = useUrlSearchParam('size');
   const searchSizeId = initialSearchSizeId ?? querySizeId ?? undefined;
   const [selectedImage, setSelectedImage] = useState(0);
@@ -1174,10 +1178,15 @@ export default function ProductPageClient({
       <StorefrontTracker />
       <main className="product-page">
         <div className="product-page-header">
-          <Link className="back-link" href="/collections/best-sellers">
-            <ArrowLeft aria-hidden="true" size={16} />
-            Back to Shop
-          </Link>
+          <nav className="product-breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><Link href="/">Home</Link></li>
+              {primaryCollection ? (
+                <li><Link href={`/collections/${primaryCollection.slug}`}>{primaryCollection.title}</Link></li>
+              ) : null}
+              <li aria-current="page">{product.title}</li>
+            </ol>
+          </nav>
         </div>
 
         <section className="listing-layout">

@@ -2,6 +2,9 @@ import { resolveProductSeoAliases } from '../shared/product-content.js';
 
 const defaultAudience = 'offices, bedrooms, studios, and focused workspaces';
 const metaDescriptionMaxLength = 155;
+// The root metadata appends " | Armoze" (9 characters), keeping the rendered
+// search title at or below the commonly visible 60-character range.
+const seoTitleMaxLength = 51;
 
 const toneProfiles = {
   money: {
@@ -100,6 +103,22 @@ function limitMetaDescription(value, maxLength = metaDescriptionMaxLength) {
   return `${shortened}.`;
 }
 
+function limitSeoTitle(value, maxLength = seoTitleMaxLength) {
+  const title = normalizeText(value);
+
+  if (title.length <= maxLength) {
+    return title;
+  }
+
+  const wordBreak = title.slice(0, maxLength + 1).lastIndexOf(' ');
+
+  return title
+    .slice(0, wordBreak > 30 ? wordBreak : maxLength)
+    .replace(/[,:;\s-]+$/g, '')
+    .replace(/\s+(?:a|an|and|for|or|the)$/i, '')
+    .trim();
+}
+
 function isGenericProductDescription(value) {
   return /motivational canvas print for offices, bedrooms, studios, and creative spaces/i.test(value || '');
 }
@@ -137,10 +156,12 @@ export function buildProductSeoTitle(product) {
   const title = normalizeText(product?.seoTitle);
 
   if (title) {
-    return title;
+    return limitSeoTitle(title);
   }
 
-  return `${normalizeText(product?.title)} ${profile.titlePhrase}`.replace(/\s+/g, ' ').trim();
+  return limitSeoTitle(
+    `${normalizeText(product?.title)} ${profile.titlePhrase}`.replace(/\s+/g, ' ').trim(),
+  );
 }
 
 export function buildProductSeoDescription(product) {
@@ -176,10 +197,12 @@ export function buildCollectionSeoTitle(collection) {
   const seoTitle = normalizeText(collection?.seoTitle);
 
   if (seoTitle) {
-    return seoTitle;
+    return limitSeoTitle(seoTitle);
   }
 
-  return collectionProfiles[collection?.slug]?.title || `${normalizeText(collection?.title)} Canvas Prints`;
+  return limitSeoTitle(
+    collectionProfiles[collection?.slug]?.title || `${normalizeText(collection?.title)} Canvas Prints`,
+  );
 }
 
 export function buildCollectionSeoDescription(collection) {

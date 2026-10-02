@@ -242,7 +242,35 @@ function getOrganizationStructuredData() {
   };
 }
 
-export function getProductStructuredData(product, sizeId) {
+function getBreadcrumbStructuredData(items) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+function getPrimaryProductCollection(catalog, product) {
+  const preferredSlugs = [
+    'best-sellers',
+    'new-arrivals',
+    'money-ambition',
+    'music',
+    'study-creative',
+  ];
+  const productSlugs = Array.isArray(product?.collectionSlugs) ? product.collectionSlugs : [];
+  const primarySlug = preferredSlugs.find((slug) => productSlugs.includes(slug)) || productSlugs[0];
+
+  return primarySlug
+    ? getCollectionForSlug(catalog, primarySlug)
+    : getCollectionForSlug(catalog, 'best-sellers');
+}
+
+export function getProductStructuredData(product, sizeId, collection) {
   const requestedSizeOption = getRequestedSizeOption(product, sizeId);
   const sizeOption = requestedSizeOption ?? getFeaturedSizeOption(product);
   const productPath = getProductVariantPath(product, sizeOption, Boolean(requestedSizeOption));
@@ -267,8 +295,7 @@ export function getProductStructuredData(product, sizeId) {
         }
       : undefined;
 
-  return {
-    '@context': 'https://schema.org',
+  const productStructuredData = {
     '@type': 'Product',
     name: product.title,
     image: productImages.length ? productImages : undefined,
@@ -294,6 +321,20 @@ export function getProductStructuredData(product, sizeId) {
     height: getDimensionValue(dimensions.height),
     aggregateRating,
     offers: getDefaultProductOffer(product, sizeOption, productPath),
+  };
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      productStructuredData,
+      getBreadcrumbStructuredData([
+        { name: 'Home', path: '/' },
+        ...(collection
+          ? [{ name: collection.title, path: `/collections/${collection.slug}` }]
+          : []),
+        { name: product.title, path: `/products/${product.slug}` },
+      ]),
+    ],
   };
 }
 
@@ -406,6 +447,10 @@ function getCollectionStructuredData(collection, products) {
           url: absoluteUrl(`/products/${product.slug}`),
         })),
       },
+      getBreadcrumbStructuredData([
+        { name: 'Home', path: '/' },
+        { name: collection.title, path: `/collections/${collection.slug}` },
+      ]),
     ],
   };
 }
@@ -595,6 +640,7 @@ export async function getRouteSeo(pathParts = [], { sizeId } = {}) {
     }
 
     const requestedSizeOption = getRequestedSizeOption(product, sizeId);
+    const primaryCollection = getPrimaryProductCollection(catalog, product);
     const productPath = getProductVariantPath(
       product,
       requestedSizeOption ?? getFeaturedSizeOption(product),
@@ -607,10 +653,12 @@ export async function getRouteSeo(pathParts = [], { sizeId } = {}) {
       metadata: baseMetadata({
         title: buildProductSeoTitle(product),
         description: buildProductSeoDescription(product),
-        path: productPath,
+        // Size selection changes the offer, not the page's search intent. Keep
+        // query-string variants consolidated under one indexable product URL.
+        path: `/products/${product.slug}`,
         image: getProductSearchImage(product),
       }),
-      structuredData: getProductStructuredData(product, requestedSizeOption?.id),
+      structuredData: getProductStructuredData(product, requestedSizeOption?.id, primaryCollection),
     };
   }
 

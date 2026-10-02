@@ -133,6 +133,16 @@ function optimizeSanityImageUrl(url: string, width: number, quality = 78) {
   return optimized.toString();
 }
 
+function getSanityImageSrcSet(url: string, widths: number[], quality = 78) {
+  if (!/^https:\/\/cdn\.sanity\.io\//i.test(url)) {
+    return undefined;
+  }
+
+  return widths
+    .map((width) => `${optimizeSanityImageUrl(url, width, quality)} ${width}w`)
+    .join(', ');
+}
+
 function getHomepageImageProductHref(image: HomepageHeroImage) {
   return image.productSlug ? `/products/${image.productSlug}` : undefined;
 }
@@ -166,7 +176,9 @@ function HomeImageCard({
       decoding="async"
       height={image.height || undefined}
       loading={priority ? 'eager' : 'lazy'}
+      sizes="(max-width: 760px) calc(100vw - 64px), (max-width: 1200px) 48vw, 760px"
       src={optimizeSanityImageUrl(image.url, 1200)}
+      srcSet={getSanityImageSrcSet(image.url, [480, 640, 768, 960, 1200])}
       width={image.width || undefined}
     />
   );
@@ -468,7 +480,9 @@ function NewArrivalsMobileShowcase({ items }: { items: HomepageMediaItem[] }) {
                       alt={reelIndex > 0 ? '' : image.alt || 'Armoze new arrivals artwork'}
                       height={image.height || undefined}
                       loading={loading}
+                      sizes="(max-width: 760px) calc(100vw - 40px), 420px"
                       src={optimizeSanityImageUrl(image.url, 600)}
+                      srcSet={getSanityImageSrcSet(image.url, [360, 480, 600])}
                       width={image.width || undefined}
                     />
                   );
@@ -785,7 +799,9 @@ export default function HomePageClient({
                     decoding="async"
                     height={slide.image.height || undefined}
                     loading={!hasHomepageHeroMedia && index === activeHeroSlideIndex ? 'eager' : 'lazy'}
+                    sizes="(max-width: 760px) 100vw, 50vw"
                     src={optimizeSanityImageUrl(slide.image.url, 1600)}
+                    srcSet={getSanityImageSrcSet(slide.image.url, [640, 828, 1200, 1600])}
                     width={slide.image.width || undefined}
                   />
                 );

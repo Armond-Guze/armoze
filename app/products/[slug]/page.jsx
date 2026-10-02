@@ -100,6 +100,7 @@ export default async function ProductRoute({ params, searchParams }) {
       <JsonLd data={routeSeo.structuredData} />
       <ProductPageClient
         catalogProducts={catalog.products}
+        collections={catalog.collections}
         product={product}
         relatedProducts={getRelatedProducts(catalog.products, product)}
         searchSizeId={requestedSizeOption?.id}

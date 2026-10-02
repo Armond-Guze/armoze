@@ -1596,6 +1596,10 @@ function NextSiteFooter() {
         { href: '/collections/new-arrivals', label: 'New Arrivals' },
         { href: '/collections/money-ambition', label: 'Money' },
         { href: '/collections/music', label: 'Music' },
+        { href: '/collections/office-motivation-wall-art', label: 'Office Wall Art' },
+        { href: '/collections/dorm-room-motivational-art', label: 'Dorm Room Art' },
+        { href: '/collections/entrepreneur-wall-art', label: 'Entrepreneur Art' },
+        { href: '/collections/money-mindset-canvas-prints', label: 'Money Mindset' },
       ],
     },
     {

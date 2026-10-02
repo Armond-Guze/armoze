@@ -74,6 +74,21 @@ const nextConfig = {
         destination: '/collections/music',
         permanent: true,
       },
+      {
+        source: '/products/daily-reminder',
+        destination: '/collections/music',
+        permanent: true,
+      },
+      {
+        source: '/products/hello-i-am',
+        destination: '/collections/best-sellers',
+        permanent: true,
+      },
+      {
+        source: '/products/money-band-clip',
+        destination: '/collections/money-ambition',
+        permanent: true,
+      },
     ];
   },
 };

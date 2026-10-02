@@ -184,10 +184,12 @@ export default function CollectionPageClient({
     <StorefrontShell products={allProducts}>
       <StorefrontTracker />
       <main className="collection-page">
+        <header className="collection-intro">
+          <p className="collection-intro-kicker">Armoze collections</p>
+          <h1>{searchTerm ? `Search results for “${searchTerm}”` : collection.title}</h1>
+          {!searchTerm && collection.description ? <p>{collection.description}</p> : null}
+        </header>
         <section className="collection-navigation" aria-label="Collection controls">
-          <h1 className="sr-only">
-            {searchTerm ? `Search results for “${searchTerm}”` : collection.title}
-          </h1>
           <nav className="collection-breadcrumbs" aria-label="Shop collections">
             {collections.map((item, index) => (
               <span className="collection-breadcrumb-item" key={item.slug}>

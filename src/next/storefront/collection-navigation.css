@@ -2,6 +2,38 @@
   background: #fff;
 }
 
+.collection-intro {
+  padding: clamp(36px, 5vw, 72px) clamp(22px, 5vw, 76px) clamp(28px, 4vw, 54px);
+  border-bottom: 1px solid #ededed;
+  background: #f7f5f1;
+  color: #202020;
+}
+
+.collection-intro-kicker {
+  margin: 0 0 10px;
+  color: #746f67;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.collection-intro h1 {
+  max-width: 850px;
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.collection-intro > p:last-child:not(.collection-intro-kicker) {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: #59544d;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.65;
+}
+
 .collection-navigation {
   position: relative;
   z-index: 6;
@@ -222,6 +254,20 @@
 }
 
 @media (max-width: 760px) {
+  .collection-intro {
+    padding: 30px 18px 26px;
+  }
+
+  .collection-intro h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .collection-intro > p:last-child:not(.collection-intro-kicker) {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
   .collection-navigation {
     min-height: 82px;
     gap: 12px;
