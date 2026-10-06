@@ -4,6 +4,7 @@ import {
   getSeoPageFactoryCollectionSlugs,
 } from '../server/seo-page-factory.js';
 import { seedCatalog } from '../server/catalog.js';
+import { guides } from '../shared/guides-content.js';
 import { buildMerchantImagePath } from '../server/merchant-image-url.js';
 
 export const dynamic = 'force-dynamic';
@@ -50,7 +51,9 @@ export default async function sitemap() {
     ...collectionSlugs,
     ...seoCollectionSlugs,
   ]).filter((collectionSlug) => !retiredCollectionSlugs.has(collectionSlug));
-  const now = new Date();
+  // A fresh timestamp on every request teaches Google to ignore lastmod, so
+  // only products with a real updatedAt report one.
+  const now = undefined;
   const routes = [
     {
       url: siteUrl,
@@ -71,6 +74,16 @@ export default async function sitemap() {
         : undefined,
       lastModified: product.updatedAt ? new Date(product.updatedAt) : now,
       priority: product.collectionSlugs.includes('best-sellers') ? 0.9 : 0.8,
+    })),
+    {
+      url: `${siteUrl}/guides`,
+      lastModified: new Date('2026-10-06'),
+      priority: 0.6,
+    },
+    ...guides.map((guide) => ({
+      url: `${siteUrl}/guides/${guide.slug}`,
+      lastModified: new Date(guide.published),
+      priority: 0.6,
     })),
     ...['about', 'faqs', 'support', 'shipping', 'returns', 'privacy', 'terms'].map((path) => ({
       url: `${siteUrl}/${path}`,

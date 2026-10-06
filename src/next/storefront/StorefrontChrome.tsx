@@ -1606,6 +1606,7 @@ function NextSiteFooter() {
       title: 'Company',
       links: [
         { href: '/about', label: 'Our Story' },
+        { href: '/guides', label: 'Guides' },
         { href: '/support', label: 'Support' },
         { href: '/account', label: 'Account' },
       ],
@@ -1640,6 +1641,7 @@ function NextSiteFooter() {
       title: 'Information',
       links: [
         { href: '/about', label: 'Our Story' },
+        { href: '/guides', label: 'Guides' },
         { href: '/support', label: 'Contact Us' },
         { href: '/faqs', label: 'FAQs' },
         { href: '/shipping', label: 'Shipping' },

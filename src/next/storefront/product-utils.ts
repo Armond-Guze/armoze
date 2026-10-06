@@ -245,12 +245,32 @@ export function getCartProductImage(product: Pick<Product, 'gallery' | 'image'>)
   return sourceImage ?? product.image;
 }
 
+const galleryAltSuffixes = [
+  'framed on a wall in a room',
+  'close-up of the canvas print',
+  'lifestyle room view',
+  'size and scale view',
+  'detail view',
+];
+
+export function isGenericImageAlt(alt: string | undefined, title: string) {
+  const text = (alt || '').trim().toLowerCase();
+  return !text || text === title.trim().toLowerCase();
+}
+
+export function buildProductImageAlt(product: Pick<Product, 'title'>, index = 0) {
+  const base = `${product.title} motivational canvas wall art print`;
+  return index > 0 ? `${base}, ${galleryAltSuffixes[(index - 1) % galleryAltSuffixes.length]}` : base;
+}
+
 export function getProductGallery(product: Product) {
   const mainImage = product.image
     ? {
         ...(product.mainImage?.url === product.image ? product.mainImage : {}),
         url: product.image,
-        alt: product.mainImage?.alt || product.imageAlt,
+        alt: isGenericImageAlt(product.mainImage?.alt || product.imageAlt, product.title)
+          ? buildProductImageAlt(product)
+          : product.mainImage?.alt || product.imageAlt,
       }
     : undefined;
   const galleryImages: ProductGalleryImage[] = [
@@ -259,7 +279,7 @@ export function getProductGallery(product: Product) {
   ];
   const seenUrls = new Set<string>();
 
-  return [mainImage, ...galleryImages].flatMap((image) => {
+  return [mainImage, ...galleryImages].flatMap((image, index) => {
     const url = image?.url?.trim();
 
     if (!image || !url || seenUrls.has(url)) {
@@ -267,7 +287,10 @@ export function getProductGallery(product: Product) {
     }
 
     seenUrls.add(url);
-    return [{ ...image, url }];
+    const alt = index === 0 || !isGenericImageAlt(image.alt, product.title)
+      ? image.alt
+      : buildProductImageAlt(product, seenUrls.size - 1);
+    return [{ ...image, url, ...(alt ? { alt } : {}) }];
   });
 }
 

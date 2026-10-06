@@ -8,6 +8,8 @@ import {
   getImageDimensions,
   getProductAspectRatio,
   getProductGallery,
+  buildProductImageAlt,
+  isGenericImageAlt,
 } from './product-utils';
 
 const mainImageLightingHashes = new Set<string>(mainImageLightingAssets.assetHashes);
@@ -124,7 +126,7 @@ export function ProductVisual({ product, useImage = false }: { product: Product;
       {product.image && useImage ? (
         <OptimizedRawImage
           src={product.image}
-          alt={product.imageAlt}
+          alt={isGenericImageAlt(product.imageAlt, product.title) ? buildProductImageAlt(product) : product.imageAlt}
           aspectRatio={getProductAspectRatio(product)}
           sanityImage={product.mainImage}
           sizes="(max-width: 760px) 88vw, 720px"
