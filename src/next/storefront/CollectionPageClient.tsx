@@ -14,6 +14,7 @@ import { StorefrontShell, StorefrontTracker } from './StorefrontChrome';
 import { getProductTrackingItem, trackStorefrontEvent } from './analytics';
 import './collection-navigation.css';
 import './collection-content.css';
+import { guides } from '../../../shared/guides-content.js';
 import { getCollectionContent } from '../../../shared/collection-content.js';
 
 type SortKey =
@@ -333,6 +334,16 @@ export default function CollectionPageClient({
                 </div>
               ))}
             </dl>
+            {guides.some((guide: { collectionSlug: string }) => guide.collectionSlug === collection.slug) ? (
+              <p className="collection-guide-links">
+                Read:{' '}
+                {guides
+                  .filter((guide: { collectionSlug: string }) => guide.collectionSlug === collection.slug)
+                  .map((guide: { slug: string; title: string }) => (
+                    <Link key={guide.slug} href={`/guides/${guide.slug}`}>{guide.title}</Link>
+                  ))}
+              </p>
+            ) : null}
             <p className="collection-guide-links">
               Explore more:{' '}
               {collections

@@ -4,6 +4,7 @@ import {
   getSeoPageFactoryCollectionSlugs,
 } from '../server/seo-page-factory.js';
 import { seedCatalog } from '../server/catalog.js';
+import { guides } from '../shared/guides-content.js';
 import { buildMerchantImagePath } from '../server/merchant-image-url.js';
 
 export const dynamic = 'force-dynamic';
@@ -73,6 +74,16 @@ export default async function sitemap() {
         : undefined,
       lastModified: product.updatedAt ? new Date(product.updatedAt) : now,
       priority: product.collectionSlugs.includes('best-sellers') ? 0.9 : 0.8,
+    })),
+    {
+      url: `${siteUrl}/guides`,
+      lastModified: new Date('2026-10-06'),
+      priority: 0.6,
+    },
+    ...guides.map((guide) => ({
+      url: `${siteUrl}/guides/${guide.slug}`,
+      lastModified: new Date(guide.published),
+      priority: 0.6,
     })),
     ...['about', 'faqs', 'support', 'shipping', 'returns', 'privacy', 'terms'].map((path) => ({
       url: `${siteUrl}/${path}`,
