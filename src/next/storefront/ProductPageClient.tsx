@@ -1717,7 +1717,7 @@ export default function ProductPageClient({
         <section className="storefront-social-proof product-reviews" aria-labelledby="product-reviews-title">
           <div className="storefront-social-proof-heading">
             <p className="eyebrow">From the Armoze Etsy shop</p>
-            <h2 id="product-reviews-title">What buyers say about Armoze</h2>
+            <h2 id="product-reviews-title">What buyers say</h2>
             <p className="storefront-review-scope">
               Verified reviews from across our canvas prints on Etsy, not specific to this design.
             </p>
