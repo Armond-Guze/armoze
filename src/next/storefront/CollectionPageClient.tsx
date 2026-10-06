@@ -13,6 +13,8 @@ import { OptimizedRawImage, ProductImage } from './OptimizedArtwork';
 import { StorefrontShell, StorefrontTracker } from './StorefrontChrome';
 import { getProductTrackingItem, trackStorefrontEvent } from './analytics';
 import './collection-navigation.css';
+import './collection-content.css';
+import { getCollectionContent } from '../../../shared/collection-content.js';
 
 type SortKey =
   | 'featured'
@@ -118,6 +120,7 @@ export default function CollectionPageClient({
   products: Product[];
 }) {
   const searchTerm = initialSearchTerm?.trim() || '';
+  const collectionContent = getCollectionContent(collection.slug);
   const sortPanelRef = useRef<HTMLDivElement>(null);
   const [sortOpen, setSortOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<SortKey>(
@@ -315,6 +318,35 @@ export default function CollectionPageClient({
             </p>
           ) : null}
         </section>
+        {!searchTerm && collectionContent ? (
+          <section className="collection-guide" aria-labelledby="collection-guide-title">
+            <h2 id="collection-guide-title">{collectionContent.heading}</h2>
+            {collectionContent.paragraphs.map((paragraph: string) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <h3>Frequently asked questions</h3>
+            <dl>
+              {collectionContent.faqs.map((faq: { question: string; answer: string }) => (
+                <div key={faq.question}>
+                  <dt>{faq.question}</dt>
+                  <dd>{faq.answer}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="collection-guide-links">
+              Explore more:{' '}
+              {collections
+                .filter((item) => item.slug !== collection.slug)
+                .slice(0, 5)
+                .map((item, index) => (
+                  <span key={item.slug}>
+                    {index ? ' · ' : ''}
+                    <Link href={`/collections/${item.slug}`}>{item.title}</Link>
+                  </span>
+                ))}
+            </p>
+          </section>
+        ) : null}
       </main>
     </StorefrontShell>
   );

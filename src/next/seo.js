@@ -9,6 +9,7 @@ import {
   buildProductSeoDescription,
   buildProductSeoTitle,
 } from '../../server/seo-copy.js';
+import { getCollectionContent } from '../../shared/collection-content.js';
 import { policyPages } from './storefront/policy-content.ts';
 import {
   hasProductSpecificReviewSummary,
@@ -424,6 +425,23 @@ function getReturnsStructuredData() {
   };
 }
 
+function getCollectionFaqStructuredData(slug) {
+  const faqs = getCollectionContent(slug)?.faqs;
+
+  return faqs?.length
+    ? [
+        {
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+          })),
+        },
+      ]
+    : [];
+}
+
 function getCollectionStructuredData(collection, products) {
   return {
     '@context': 'https://schema.org',
@@ -451,6 +469,7 @@ function getCollectionStructuredData(collection, products) {
         { name: 'Home', path: '/' },
         { name: collection.title, path: `/collections/${collection.slug}` },
       ]),
+      ...getCollectionFaqStructuredData(collection.slug),
     ],
   };
 }
