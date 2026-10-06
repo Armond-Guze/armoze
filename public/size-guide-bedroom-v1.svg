@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece6da"/><stop offset="1" stop-color="#ddd5c6"/></linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdb48d"/><stop offset="1" stop-color="#b99b72"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff4d6" stop-opacity=".7"/><stop offset="1" stop-color="#fff4d6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="900" height="600" fill="url(#wall)"/>
+  <rect y="500" width="900" height="100" fill="url(#floor)"/>
+  <rect y="494" width="900" height="8" fill="#f4efe6"/>
+  <g stroke="#a98d66" stroke-opacity=".35"><path d="M0 535H900M0 570H900M150 502V535M420 502V535M700 502V535M60 535V570M300 535V570M560 535V570M810 535V570"/></g>
+  <ellipse cx="450" cy="515" rx="330" ry="14" fill="#000" opacity=".12"/>
+  <!-- nightstands -->
+  <rect x="165" y="425" width="55" height="82" rx="4" fill="#8a6f55"/>
+  <rect x="680" y="425" width="55" height="82" rx="4" fill="#8a6f55"/>
+  <rect x="175" y="440" width="35" height="3" fill="#6f563f"/><rect x="690" y="440" width="35" height="3" fill="#6f563f"/>
+  <!-- lamps -->
+  <circle cx="192" cy="385" r="48" fill="url(#glow)"/><circle cx="708" cy="385" r="48" fill="url(#glow)"/>
+  <rect x="189" y="392" width="6" height="33" fill="#5b4a3a"/><rect x="705" y="392" width="6" height="33" fill="#5b4a3a"/>
+  <path d="M174 392L184 362H200L210 392Z" fill="#f2e8d2"/><path d="M690 392L700 362H716L726 392Z" fill="#f2e8d2"/>
+  <!-- bed -->
+  <rect x="225" y="300" width="450" height="150" rx="10" fill="#6b5a4b"/>
+  <g stroke="#5a4a3c" stroke-width="2"><path d="M337 308V445M450 308V445M562 308V445"/></g>
+  <rect x="225" y="440" width="450" height="68" rx="6" fill="#4f4237"/>
+  <rect x="247" y="383" width="195" height="48" rx="18" fill="#f5f1e9"/>
+  <rect x="458" y="383" width="195" height="48" rx="18" fill="#f5f1e9"/>
+  <rect x="225" y="418" width="450" height="80" rx="12" fill="#c7d0d8"/>
+  <path d="M225 450H675" stroke="#aeb9c3" stroke-width="3"/>
+  <rect x="225" y="418" width="450" height="14" rx="7" fill="#dfe5ea"/>
+  <rect x="236" y="506" width="12" height="9" fill="#4f4237"/><rect x="652" y="506" width="12" height="9" fill="#4f4237"/>
+</svg>

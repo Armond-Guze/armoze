@@ -2144,6 +2144,40 @@ h3 {
   background: #f4f1eb;
 }
 
+.size-guide-scene-toggle {
+  display: inline-flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 3px;
+  border: 1px solid rgba(21, 21, 21, 0.13);
+  border-radius: 999px;
+  background: #fff;
+}
+
+.size-guide-scene-toggle button {
+  min-height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5b564e;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.size-guide-scene-toggle button.active {
+  background: #151515;
+  color: #fff;
+}
+
+.storefront-review-scope {
+  margin: 8px 0 0;
+  color: #777168;
+  font-size: 0.85rem;
+}
+
 .size-guide-wall-scene {
   position: relative;
   aspect-ratio: 3 / 2;
@@ -2495,8 +2529,8 @@ h3 {
   justify-self: center;
   display: block;
   box-sizing: border-box;
-  max-width: 48px;
-  max-height: 48px;
+  max-width: 56px;
+  max-height: 56px;
   border: 2px solid #2f2e2b;
   background: linear-gradient(145deg, #e5e0d7, #ccc4b8);
   box-shadow: 0 2px 5px rgba(36, 32, 27, 0.12);
@@ -2532,6 +2566,42 @@ h3 {
 
 .size-guide-option-list b {
   font-size: 0.76rem;
+}
+
+.size-guide-current-size small {
+  color: #777168;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.size-guide-current-size .size-guide-wall-hint {
+  display: block;
+  margin-top: 2px;
+  color: #777168;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.size-guide-badge {
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: #151515;
+  color: #fff;
+  font-size: 0.56rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
+.size-guide-tip {
+  margin: 12px 0 0;
+  color: #615d56;
+  font-size: 0.74rem;
+  line-height: 1.5;
 }
 
 .size-guide-apply {
