@@ -18614,3 +18614,54 @@ body.newsletter-popup-lock {
     grid-column: 2;
   }
 }
+
+/* Reviews: calmer type so the quotes read as quotes, not headlines. */
+.storefront-social-proof-heading h2 {
+  max-width: 16ch;
+}
+
+.storefront-review-quote {
+  font-weight: 500;
+  line-height: 1.6;
+  color: #3a3733;
+}
+
+.storefront-review-meta {
+  font-weight: 700;
+}
+
+.storefront-review-meta strong {
+  font-weight: 800;
+}
+
+.storefront-review-detail {
+  font-weight: 600;
+}
+
+/* Homepage grids: avoid a half-empty last row when 3 or 6 best sellers are shown. */
+@media (min-width: 761px) {
+  .storefront-home .product-grid.is-thirds {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Mobile product page: keep the review count next to the rating for trust. */
+@media (max-width: 760px) {
+  .listing-heading .store-rating .store-rating-count {
+    display: inline;
+    padding-left: 0;
+    border-left: 0;
+    margin-left: 4px;
+    color: #777168;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .listing-heading .store-rating .store-rating-count::before {
+    content: "(";
+  }
+
+  .listing-heading .store-rating .store-rating-count::after {
+    content: ")";
+  }
+}

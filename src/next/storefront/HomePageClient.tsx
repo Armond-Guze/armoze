@@ -393,6 +393,7 @@ function BestSellersCarousel({
       className={[
         'product-grid best-sellers-carousel',
         hasEdgePeek ? 'has-edge-peek' : undefined,
+        items.length === 3 || items.length === 6 ? 'is-thirds' : undefined,
         className,
       ].filter(Boolean).join(' ')}
       ref={carouselRef}
