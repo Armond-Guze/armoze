@@ -180,8 +180,12 @@ function getSizeGuideRecommendation(width: number, height: number) {
     return 'Best for shelves, narrow walls, and compact desk setups.';
   }
 
-  if (width <= 40) {
+  if (width <= 32) {
     return 'A balanced choice above desks, dressers, and reading areas.';
+  }
+
+  if (width <= 40) {
+    return 'Fills the wall above a bed, console, or small sofa.';
   }
 
   if (width <= 50) {
@@ -194,7 +198,18 @@ function getSizeGuideRecommendation(width: number, height: number) {
 const SIZE_GUIDE_SOFA_WIDTH_INCHES = 72;
 const SIZE_GUIDE_SOFA_WIDTH_PERCENT = 57;
 const SIZE_GUIDE_DOOR_HEIGHT_INCHES = 80;
-const SIZE_GUIDE_OPTION_MAX_EDGE_PX = 48;
+const SIZE_GUIDE_OPTION_MAX_EDGE_PX = 56;
+const SIZE_GUIDE_OPTION_MIN_EDGE_PX = 12;
+const SIZE_GUIDE_IDEAL_WALL_FILL = 0.75;
+const SIZE_GUIDE_HANG_CENTER_INCHES = 57;
+
+function getSizeGuideMetric(width: number, height: number) {
+  return `${Math.round(width * 2.54)} \u00d7 ${Math.round(height * 2.54)} cm`;
+}
+
+function getSizeGuideMinWallWidth(width: number) {
+  return Math.ceil(width / SIZE_GUIDE_IDEAL_WALL_FILL);
+}
 const SIZE_GUIDE_LANDSCAPE_MAX_WIDTH_PERCENT = 88;
 const SIZE_GUIDE_LANDSCAPE_MAX_HEIGHT_PERCENT = 54;
 const SIZE_GUIDE_PORTRAIT_MAX_HEIGHT_PERCENT = 72;
@@ -325,6 +340,16 @@ function ProductSizeGuide({
       return Math.max(dimensions.width, dimensions.height);
     }),
   );
+  const bestValueOptionId = product.sizeOptions.reduce<{ id: string; rate: number } | null>((best, option) => {
+    const dimensions = getSizeDimensions(option);
+    const optionFrame =
+      getAvailableFrameOptions(product, option).find((candidate) => candidate.id === frameOption.id) ??
+      getBaseFrameOption(product);
+    const rate =
+      getConfiguredUnitPrice(product, option, optionFrame) / (dimensions.width * dimensions.height);
+
+    return !best || rate < best.rate ? { id: option.id, rate } : best;
+  }, null)?.id;
   const optionPreviewPixelsPerInch = SIZE_GUIDE_OPTION_MAX_EDGE_PX / largestOptionEdge;
   const dialogRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -455,12 +480,18 @@ function ProductSizeGuide({
               <div className="size-guide-current-heading">
                 <span>Selected canvas</span>
                 <strong>{selectedOption.label} in</strong>
+                <small>{getSizeGuideMetric(width, height)}</small>
               </div>
               <div className="size-guide-proportion">
                 <strong>{selectedReferenceRatio}%</strong>
                 <span>{isPortrait ? 'of door height' : 'of sofa width'}</span>
               </div>
-              <p>{getSizeGuideRecommendation(width, height)}</p>
+              <p>
+                {getSizeGuideRecommendation(width, height)}{' '}
+                <span className="size-guide-wall-hint">
+                  Best on walls {getSizeGuideMinWallWidth(width)} in wide or more.
+                </span>
+              </p>
             </div>
           </div>
 
@@ -492,13 +523,18 @@ function ProductSizeGuide({
                     <span
                       className="size-guide-option-shape"
                       style={{
-                        width: `${dimensions.width * optionPreviewPixelsPerInch}px`,
-                        height: `${dimensions.height * optionPreviewPixelsPerInch}px`,
+                        width: `${Math.max(SIZE_GUIDE_OPTION_MIN_EDGE_PX, dimensions.width * optionPreviewPixelsPerInch)}px`,
+                        height: `${Math.max(SIZE_GUIDE_OPTION_MIN_EDGE_PX, dimensions.height * optionPreviewPixelsPerInch)}px`,
                       }}
                       aria-hidden="true"
                     />
                     <span>
-                      <strong>{option.label} in</strong>
+                      <strong>
+                        {option.label} in
+                        {option.id === bestValueOptionId && product.sizeOptions.length > 2 ? (
+                          <i className="size-guide-badge">Best value</i>
+                        ) : null}
+                      </strong>
                       <small>{getSizeGuideRecommendation(dimensions.width, dimensions.height)}</small>
                       <em>
                         {optionReferenceRatio}% of {optionIsPortrait ? 'door height' : 'sofa width'}
@@ -512,6 +548,9 @@ function ProductSizeGuide({
             <button className="button button-primary size-guide-apply" type="button" onClick={onClose}>
               Select {selectedOption.label} in
             </button>
+            <div className="size-guide-tip">
+              Hanging tip: center the canvas about {SIZE_GUIDE_HANG_CENTER_INCHES} in from the floor, or 6 to 10 in above furniture. Every size ships free in the U.S. with 30-day returns.
+            </div>
             <small className="size-guide-note">
               {previewIsFitted
                 ? 'This oversize canvas is fitted within the room preview. Use the listed dimensions for exact scale.'
