@@ -50,7 +50,9 @@ export default async function sitemap() {
     ...collectionSlugs,
     ...seoCollectionSlugs,
   ]).filter((collectionSlug) => !retiredCollectionSlugs.has(collectionSlug));
-  const now = new Date();
+  // A fresh timestamp on every request teaches Google to ignore lastmod, so
+  // only products with a real updatedAt report one.
+  const now = undefined;
   const routes = [
     {
       url: siteUrl,
